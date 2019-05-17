@@ -84,7 +84,7 @@ public class OAuthAuthenticationScheme extends HttpAuthenticationSchemeAdapter {
         if (!state.equals(SessionUtil.getSessionId(request)))
             return sendUnauthorizedRequest(request, response, "Unauthenticated since retrieved 'state' doesn't correspond to current TeamCity session.");
 
-        String token = authClient.getAccessToken(code);
+        String token = authClient.getAccessToken(code, request.getScheme() + "://" +request.getServerName());
         if (token == null) {
             return sendUnauthorizedRequest(request, response, String.format("Unauthenticated since failed to fetch token for code '%s' and state '%s'.", code, state));
         }

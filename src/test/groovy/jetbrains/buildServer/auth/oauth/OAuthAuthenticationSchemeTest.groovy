@@ -86,8 +86,10 @@ class OAuthAuthenticationSchemeTest extends Specification {
             getParameter(OAuthAuthenticationScheme.CODE) >> "code"
             getParameter(OAuthAuthenticationScheme.STATE) >> "state"
             getRequestedSessionId() >> "state"
+            getScheme() >> "http"
+            getServerName() >> "hostname"
         }
-        client.getAccessToken("code") >> "token"
+        client.getAccessToken("code", "http://hostname") >> "token"
         client.getUserData("token") >> new OAuthUser(null)
         when:
         HttpAuthenticationResult result = scheme.processAuthenticationRequest(req, res, [:])
@@ -102,8 +104,10 @@ class OAuthAuthenticationSchemeTest extends Specification {
             getParameter(OAuthAuthenticationScheme.CODE) >> "code"
             getParameter(OAuthAuthenticationScheme.STATE) >> "state"
             getRequestedSessionId() >> "state"
+            getScheme() >> "http"
+            getServerName() >> "hostname"
         }
-        client.getAccessToken("code") >> "token"
+        client.getAccessToken("code", "http://hostname") >> "token"
         client.getUserData("token") >> new OAuthUser("testUser")
         when:
         HttpAuthenticationResult result = scheme.processAuthenticationRequest(req, res, [:])
@@ -118,8 +122,10 @@ class OAuthAuthenticationSchemeTest extends Specification {
             getParameter(OAuthAuthenticationScheme.CODE) >> "code"
             getParameter(OAuthAuthenticationScheme.STATE) >> "state"
             getRequestedSessionId() >> "state"
+            getScheme() >> "http"
+            getServerName() >> "hostname"
         }
-        client.getAccessToken("code") >> "token"
+        client.getAccessToken("code", "http://hostname") >> "token"
         client.getUserData("token") >> new OAuthUser("testUser")
         when:
         HttpAuthenticationResult result = scheme.processAuthenticationRequest(req, res, [allowCreatingNewUsersByLogin: false])
@@ -134,8 +140,10 @@ class OAuthAuthenticationSchemeTest extends Specification {
             getParameter(OAuthAuthenticationScheme.CODE) >> "code"
             getParameter(OAuthAuthenticationScheme.STATE) >> "state"
             getRequestedSessionId() >> "state"
+            getScheme() >> "http"
+            getServerName() >> "hostname"
         }
-        client.getAccessToken("code") >> "token"
+        client.getAccessToken("code", "http://hostname") >> "token"
         client.getUserData("token") >> new OAuthUser("testUser", "Test User", "test@example.com")
         properties.getEmailDomain() >> "example.com"
         when:
@@ -151,8 +159,10 @@ class OAuthAuthenticationSchemeTest extends Specification {
             getParameter(OAuthAuthenticationScheme.CODE) >> "code"
             getParameter(OAuthAuthenticationScheme.STATE) >> "state"
             getRequestedSessionId() >> "state"
+            getScheme() >> "http"
+            getServerName() >> "hostname"
         }
-        client.getAccessToken("code") >> "token"
+        client.getAccessToken("code", "http://hostname") >> "token"
         client.getUserData("token") >> new OAuthUser("testUser", "Test User", "test@acme.com")
         properties.getEmailDomain() >> "example.com"
         when:
@@ -168,8 +178,10 @@ class OAuthAuthenticationSchemeTest extends Specification {
             getParameter(OAuthAuthenticationScheme.CODE) >> "code"
             getParameter(OAuthAuthenticationScheme.STATE) >> "state"
             getRequestedSessionId() >> "state"
+            getScheme() >> "http"
+            getServerName() >> "hostname"
         }
-        client.getAccessToken("code") >> "token"
+        client.getAccessToken("code", "http://hostname") >> "token"
         client.getUserData("token") >> new OAuthUser("testUser")
         properties.getEmailDomain() >> "example.com"
         when:
@@ -185,11 +197,13 @@ class OAuthAuthenticationSchemeTest extends Specification {
             getParameter(OAuthAuthenticationScheme.CODE) >> "code"
             getParameter(OAuthAuthenticationScheme.STATE) >> "state"
             getRequestedSessionId() >> "state"
+            getScheme() >> "http"
+            getServerName() >> "hostname"
         }
         GithubUser githubUser = new GithubUser([id: "sample-test"], { '[ {"login": "test-org"} ]' })
 
         client.getUserData("token") >> githubUser
-        client.getAccessToken("code") >> "token"
+        client.getAccessToken("code", "http://hostname") >> "token"
         properties.getOrganizations() >> "test-org,foo-org"
 
         when:
@@ -204,11 +218,13 @@ class OAuthAuthenticationSchemeTest extends Specification {
             getParameter(OAuthAuthenticationScheme.CODE) >> "code"
             getParameter(OAuthAuthenticationScheme.STATE) >> "state"
             getRequestedSessionId() >> "state"
+            getScheme() >> "http"
+            getServerName() >> "hostname"
         }
         GithubUser githubUser = new GithubUser([id: "sample-test"], { '[ {"login": "test-org"} ]' })
 
         client.getUserData("token") >> githubUser
-        client.getAccessToken("code") >> "token"
+        client.getAccessToken("code", "http://hostname") >> "token"
 
         when:
         HttpAuthenticationResult result = scheme.processAuthenticationRequest(req, res, [:])
@@ -223,11 +239,13 @@ class OAuthAuthenticationSchemeTest extends Specification {
             getParameter(OAuthAuthenticationScheme.CODE) >> "code"
             getParameter(OAuthAuthenticationScheme.STATE) >> "state"
             getRequestedSessionId() >> "state"
+            getScheme() >> "http"
+            getServerName() >> "hostname"
         }
         GithubUser githubUser = new GithubUser([id: "sample-test"], { '[ {"login": "test-org"} ]' })
 
         client.getUserData("token") >> githubUser
-        client.getAccessToken("code") >> "token"
+        client.getAccessToken("code", "http://hostname") >> "token"
         properties.getOrganizations() >> "foo-org, bar-org"
 
         when:

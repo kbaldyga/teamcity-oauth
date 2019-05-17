@@ -30,13 +30,13 @@ public class OAuthClient {
         return httpClients.computeIfAbsent(properties.isAllowInsecureHttps(), HttpClientFactory::createClient);
     }
 
-    public String getRedirectUrl(String state) {
+    public String getRedirectUrl(String state, String redirectUri) {
         HttpUrl.Builder builder = HttpUrl.parse(properties.getAuthorizeEndpoint())
                 .newBuilder()
                 .addQueryParameter("response_type", "code")
                 .addQueryParameter("client_id", properties.getClientId())
                 .addQueryParameter("state", state)
-                .addQueryParameter("redirect_uri", properties.getRootUrl());
+                .addQueryParameter("redirect_uri", redirectUri);
         if (StringUtil.isNotEmpty(properties.getScope())) {
             builder.addQueryParameter("scope", properties.getScope());
         }
@@ -44,11 +44,11 @@ public class OAuthClient {
 
     }
 
-    public String getAccessToken(String code) throws IOException {
+    public String getAccessToken(String code, String redirectUri) throws IOException {
         RequestBody formBody = new FormBody.Builder()
                 .add("grant_type", "authorization_code")
                 .add("code", code)
-                .add("redirect_uri", properties.getRootUrl())
+                .add("redirect_uri", redirectUri)
                 .add("client_id", properties.getClientId())
                 .add("client_secret", properties.getClientSecret())
                 .build();

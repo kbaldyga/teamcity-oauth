@@ -7,15 +7,18 @@ import jetbrains.buildServer.users.UserModel;
 import jetbrains.buildServer.web.openapi.PagePlaces;
 import jetbrains.buildServer.web.openapi.PluginDescriptor;
 import jetbrains.buildServer.web.openapi.WebControllerManager;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Configuration
 public class PluginConfiguration {
 
     @Bean
-    public AuthenticationSchemeProperties authenticationSchemeProperties(SBuildServer sBuildServer, LoginConfiguration loginConfiguration) {
-        return new AuthenticationSchemeProperties(sBuildServer, loginConfiguration);
+    public AuthenticationSchemeProperties authenticationSchemeProperties(LoginConfiguration loginConfiguration) {
+        return new AuthenticationSchemeProperties(loginConfiguration);
     }
 
     @Bean

@@ -3,9 +3,11 @@ package jetbrains.buildServer.auth.oauth;
 import jetbrains.buildServer.serverSide.SBuildServer;
 import jetbrains.buildServer.serverSide.auth.AuthModule;
 import jetbrains.buildServer.serverSide.auth.LoginConfiguration;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -13,18 +15,11 @@ import java.util.Optional;
 public class AuthenticationSchemeProperties {
 
     private final ConfigPresets presets;
-    private final SBuildServer sBuildServer;
     private final LoginConfiguration loginConfiguration;
 
-    public AuthenticationSchemeProperties(@NotNull final SBuildServer sBuildServer, @NotNull final LoginConfiguration loginConfiguration) {
-        this.sBuildServer = sBuildServer;
+    public AuthenticationSchemeProperties(@NotNull final LoginConfiguration loginConfiguration) {
         this.loginConfiguration = loginConfiguration;
         this.presets = new ConfigPresets();
-    }
-
-    @Nullable
-    public String getRootUrl() {
-        return sBuildServer.getRootUrl();
     }
 
     @Nullable

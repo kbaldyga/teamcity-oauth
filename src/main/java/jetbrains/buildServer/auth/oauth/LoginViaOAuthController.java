@@ -31,6 +31,6 @@ public class LoginViaOAuthController extends BaseController {
             return null;
         }
         String state = SessionUtil.getSessionId(request);
-        return new ModelAndView(new RedirectView(authClient.getRedirectUrl(state)));
+        return new ModelAndView(new RedirectView(authClient.getRedirectUrl(state, request.getScheme() + "://" + request.getServerName())));
     }
 }

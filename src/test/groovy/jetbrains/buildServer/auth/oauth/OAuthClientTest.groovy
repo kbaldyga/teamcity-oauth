@@ -35,7 +35,6 @@ class OAuthClientTest extends Specification {
 
     def setup() {
         schemeProperties = Stub(AuthenticationSchemeProperties) {
-            getRootUrl() >> ROOT_URL
             getAuthorizeEndpoint() >> AUTHORIZE_URL
             getTokenEndpoint() >> TOKEN_URL
             getUserEndpoint() >> USER_URL
@@ -52,7 +51,7 @@ class OAuthClientTest extends Specification {
         schemeProperties.getScope() >> scope
         def state = "state"
         when:
-        def redirectUrl = client.getRedirectUrl(state);
+        def redirectUrl = client.getRedirectUrl(state, ROOT_URL);
         def uri = UriComponentsBuilder.fromHttpUrl(redirectUrl).build();
         then:
         uri.host == 'localhost'
@@ -76,7 +75,7 @@ class OAuthClientTest extends Specification {
         def token = 'my_token'
         server.enqueue(new MockResponse().setBody(JSONValue.toJSONString([access_token: token])))
         expect:
-        client.getAccessToken(code) == token
+        client.getAccessToken(code, ROOT_URL) == token
         def req = server.takeRequest()
         req.method == 'POST'
         req.path == '/token'

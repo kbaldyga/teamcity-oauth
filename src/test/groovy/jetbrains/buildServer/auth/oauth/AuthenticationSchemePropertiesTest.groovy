@@ -1,6 +1,5 @@
 package jetbrains.buildServer.auth.oauth
 
-import jetbrains.buildServer.serverSide.SBuildServer
 import jetbrains.buildServer.serverSide.auth.AuthModule
 import jetbrains.buildServer.serverSide.auth.LoginConfiguration
 import spock.lang.Specification
@@ -18,15 +17,7 @@ class AuthenticationSchemePropertiesTest extends Specification {
             getConfiguredAuthModules(_) >> [authModule]
             isGuestLoginAllowed() >> true
         }
-        SBuildServer sBuildServer = Mock() {
-            getRootUrl() >> 'rooturl'
-        }
-        schemeProperties = new AuthenticationSchemeProperties(sBuildServer, loginConfiguration)
-    }
-
-    def "configuration read root url"() {
-        expect:
-        schemeProperties.getRootUrl() == 'rooturl'
+        schemeProperties = new AuthenticationSchemeProperties(loginConfiguration)
     }
 
     def "configuration read allow insecure https"() {
@@ -81,7 +72,6 @@ class AuthenticationSchemePropertiesTest extends Specification {
         schemeProperties.getTokenEndpoint() == 'https://bitbucket.org/site/oauth2/access_token'
         schemeProperties.getUserEndpoint() == 'https://api.bitbucket.org/2.0/user'
     }
-
 
     def "configuration is valid for custom preset"() {
         given:
